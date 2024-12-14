@@ -13,6 +13,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [RoleController::class, 'admin'])
+        ->name('admin.dashboard');
+});
+
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::get('/user/dashboard', [RoleController::class, 'user'])
+        ->name('user.dashboard');
+});
+
 Route::get('/dashboard', [ImageController::class,'myImages'])
     ->middleware(['auth', 'verified'])->name('dashboard');
 
